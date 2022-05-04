@@ -3,8 +3,10 @@ import requests
 
 def make_api_call(http_method, url, params={}, headers={}, body={}, timeout=3):
     try:
-        if http_method == 'GET': response = requests.get(url,timeout=timeout)
-        elif http_method == 'POST': response = requests.post(url,timeout=timeout)
+        if http_method == 'GET': response = requests.get(
+            url, params=params, headers=headers, timeout=timeout)
+        elif http_method == 'POST': response = requests.post(
+            url, params=params, headers=headers, body=body, timeout=timeout)
         else:
             print(f"HTTP method {http_method} not supported")
             System.exit(1)

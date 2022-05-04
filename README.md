@@ -8,3 +8,6 @@ A suite of my common use scripting tools for genetics, data science, and molecul
 - COSMIC API Connector
     - API Docs: https://clinicaltables.nlm.nih.gov/apidoc/cosmic/v4/doc.html
 
+### Upcoming transcript validators for
+- MANE Select ftp: https://ftp.ncbi.nlm.nih.gov/refseq/MANE/MANE_human/current/
+    Currently looking for an automatically updated resource
