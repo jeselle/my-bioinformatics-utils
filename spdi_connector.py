@@ -13,6 +13,16 @@ class SPDI_Conector():
         response = self.make_api_call("GET", self.spdi_api_url+f"/hgvs/{genomic_hgvs}/contextuals")
         return response.text
 
+
+
+    def get_variant_from_hgvs(self, genomic_hgvs):
+        response = self.make_api_call("GET", self.spdi_api_url+f"/hgvs/{genomic_hgvs}/contextuals")
+        return response.text
+
+    def get_hgvs_from_spdi(self, spdi_string):
+        response = self.make_api_call("GET", self.spdi_api_url+f"/spdi/{spdi_string}/hgvs")
+        return response.text
+
     def make_api_call(self, http_method, url, params={}, headers={}, body={}, timeout=3):
         try:
             if http_method == 'GET': response = requests.get(url,timeout=timeout)
@@ -33,7 +43,9 @@ class SPDI_Conector():
 
 def main():
     sc = SPDI_Conector()
-    r = sc.spdi_get_variant_from_hgvs("NC_000007.14:g.55191822_55191823delinsGT")
+    r = sc.get_variant_from_hgvs("NC_000007.14:g.55191822_55191823delinsGT")
+    print(r)
+    r = sc.get_hgvs_from_spdi("NC_000001.10:12345:1:A")
     print(r)
 
 if __name__ == "__main__":
