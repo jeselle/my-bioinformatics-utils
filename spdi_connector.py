@@ -4,13 +4,16 @@ class SPDI_Conector():
     """Collection of helper functions for using SPDI API"""
     
     cosmic_api_url = "https://clinicaltables.nlm.nih.gov/api/cosmic/v4/search"
-    spdi_api_url = "https://api.ncbi.nlm.nih.gov/variation/v0/spdi/NC_000001.10%3A12345%3A1%3AA/hgvs"
+    spdi_api_url = "https://api.ncbi.nlm.nih.gov/variation/v0"
 
     def __init__(self):
         pass
-        
+    
+    def spdi_get_variant_from_hgvs(self, genomic_hgvs):
+        response = self.make_api_call("GET", self.spdi_api_url+f"/hgvs/{genomic_hgvs}/contextuals")
+        return response.text
 
-    def make_api_call(self, http_method, url, params="", headers="", body="", timeout=3):
+    def make_api_call(self, http_method, url, params={}, headers={}, body={}, timeout=3):
         try:
             if http_method == 'GET': response = requests.get(url,timeout=timeout)
             elif http_method == 'POST': response = requests.post(url,timeout=timeout)
@@ -20,17 +23,17 @@ class SPDI_Conector():
         except requests.exceptions.HTTPError as errh:
             print ("Http Error:",errh)
         except requests.exceptions.ConnectionError as errc:
-            print ("Error Connecting:",errc)
+            print ("Error Connecting to Resource:",errc)
         except requests.exceptions.Timeout as errt:
             print ("Timeout Error:",errt)
         except requests.exceptions.RequestException as err:
-            print ("OOps: Something Else",err)
+            print ("Unspecified Request Error",err)
         response.raise_for_status()
-        return response.json
+        return response
 
 def main():
     sc = SPDI_Conector()
-    r = sc.make_api_call("GET", sc.spdi_api_url)
+    r = sc.spdi_get_variant_from_hgvs("NC_000007.14:g.55191822_55191823delinsGT")
     print(r)
 
 if __name__ == "__main__":
